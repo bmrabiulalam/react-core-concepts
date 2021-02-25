@@ -13,10 +13,33 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Users></Users>
+        <Country country='Bangladesh'></Country>
+        <Country country='Pakistan'></Country>
       </header>
     </div>
   );
+}
+
+function Country(props){
+  const [country, setCountry] = useState([]);
+  useEffect(() => {
+    fetch('https://restcountries.eu/rest/v2/name/'+props.country)
+    .then(res => res.json())
+    .then(data => setCountry(data[0]))
+  }, [])
+
+  console.log(country);
+  const {flag, name, capital, subregion, region, currencies} = country;
+  // const [currCode, currName, currSymbol] = currencies;
+
+  return <div style={{margin: '30px', padding: '20px', border: '2px solid green'}}>
+    <img style={{width: '150px'}} src={flag}></img>
+    <h1>{name}</h1>
+    <h4>{capital}</h4>
+    <h4>{subregion}</h4>
+    <h4>{region}</h4>
+    <h4>{country.currencies[0].code} - {country.currencies[0].name} - {country.currencies[0].symbol}</h4>
+  </div>
 }
 
 function Counter(){
